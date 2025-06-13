@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
+ // ✅ Importa el environment
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'https://twomomentoback.onrender.com';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -17,12 +18,11 @@ export class NotificationService {
       type,
       created_at: new Date().toISOString()
     };
-    return this.http.post(this.apiUrl, payload);
+    // Ajusta "/notifications" si tu backend espera esa ruta
+    return this.http.post(`${this.apiUrl}/notifications`, payload);
   }
 
   getNotifications(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/notifications`);
   }
 }
-
-
